@@ -3,32 +3,38 @@ N,M= map(int,input().split())
 x,y,d=map(int,input().split())
 
 arr=[list(map(int,input().split())) for _ in range(N)]
+visit=arr
+
+nx=[-1,0,1,0]
+ny=[0,-1,0,1]
 
 
-nx=[0,1,0,-1]
-ny=[1,0,-1,0]
-dir=[3,2,1,0]
-
-count=1
-
-def move(x,y):
-    global count
+count=0
+def play(x,y):
+    global dy,dx, count
     for i in range(4):
-        dx = x + nx[dir[d - i]]
-        dy = y + ny[dir[d - i]]
-        if dx < 0 or dy < 0 or dx > M or dy > N or arr[dy][dx] == 1:
+        dy = y + ny[i]
+        dx = x + nx[i]
+        if dy<0 or dx<0 or dy>N or dx>M or arr[dy][dx]==1:
             continue
-
         else:
-            x=dx
-            y=dy
-            arr[dy][dx]=1
-            count=count+1
-            move(x,y)
+            if visit[dy][dx] == 0:
+                visit[dy][dx] = 1
+                x = dx
+                y = dy
+                count=count+1
+                play(x,y)
 
-    return(count)
-move(x,y)
+
+for i in range(4):
+    dx=x+nx[i]
+    dy=y+ny[i]
+    if dy < 0 or dx < 0 or dy > N or dx > M:
+        continue
+    else:
+        play(x,y)
+
 print(count)
 
 
-##오류 발견
+
